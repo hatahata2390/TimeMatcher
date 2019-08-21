@@ -1,11 +1,10 @@
 class PasswordResetsController < ApplicationController
-  #Setting Start 
+  # Setting Start 
   before_action :get_user,         only: [:edit, :update]
   before_action :valid_user,       only: [:edit, :update]
   before_action :check_expiration, only: [:edit, :update]
-  #Setting End
   
-  #Action Start
+  # Action Start
   def new
   end
   
@@ -37,38 +36,35 @@ class PasswordResetsController < ApplicationController
   end
   
   def edit
+    
   end
-  #Action End
-  
-    #private start
+
     private
   
-    #Strong Parameters
+    # Strong Parameters
     def user_params
     params.require(:user).permit(:password, :password_confirmation)
     end
   
-    #Before Action Start  
+    # Before Action Start
+    # Set
     def get_user
       @user = User.find_by(email: params[:email])
     end
   
-    # 有効なユーザーかどうか確認する
+    # Check Validation of @user
     def valid_user
       unless (@user && @user.activated? && @user.authenticated?(:reset, params[:id]))
         redirect_to root_url
       end
     end
   
-    # トークンが期限切れかどうか確認する
+    # Check Expiration of reset_token
     def check_expiration
       if @user.password_reset_expired?
         flash[:danger] = "Password reset has expired."
         redirect_to new_password_reset_url
       end
     end
-    #Before Action End
-  
-    #private End
-  end
-  
+
+end

@@ -2,11 +2,18 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   let(:user) {FactoryBot.create(:negative_user)}
-  
+  let(:ami) {FactoryBot.create(:Ami)}
+  let(:bob) {FactoryBot.create(:Bob)}
+
   describe 'Validation Check' do
 
     it "is valid with a name, email, and password" do
       expect(user).to be_valid
+    end
+
+    it "is not valid when gender is nil" do
+      user.gender = nil
+      expect(user).to_not be_valid
     end
 
     it "is not valid when name is nil" do
@@ -88,12 +95,20 @@ RSpec.describe User, type: :model do
 
     it "returns true when call create_reset_digest" do
       expect(user.create_reset_digest).to eq true
-    end    
+    end
+
+    it "works correctly when call like, like_send_to? and like_sent_by?" do
+      expect(ami.like_send_to?(bob)).not_to eq true
+      expect(bob.like_sent_by?(ami)).not_to eq true
+      ami.like(bob)
+      expect(ami.like_send_to?(bob)).to eq true
+      expect(bob.like_sent_by?(ami)).to eq true
+    end   
 
   end
 
   describe 'Private Method Check' do
-    it "works correct when call downcase_email" do
+    it "works correctly when call downcase_email" do
       user.email = 'NEGATIVE@com'
       downcase_email = 'negative@com'
       expect(user.send(:downcase_email)).to eq downcase_email

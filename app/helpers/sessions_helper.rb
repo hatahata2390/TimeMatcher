@@ -60,4 +60,17 @@ module SessionsHelper
     session[:forwarding_url] = request.original_url if request.get?
   end
 
+  # # Return like_relationship_status
+  # def test_like_status(user, other_user)
+  #   if user.like_send_to?(other_user)
+  #     :buttun = false
+  #     :text = user.matchers.include?(other_user) ? "Already Matching!" : "Already Sent!"
+  #     return :buttun, :text
+  #   else
+  #     :buttun = true
+  #     :text = self.like_sent_by?(other_user) ? "Thanks Like!" : "Like!"
+  #     return :buttun, :text
+  #   end
+  # end
+
 end

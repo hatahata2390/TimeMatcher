@@ -11,10 +11,38 @@ RSpec.describe'Check Unauthorized User', type: :request do
     end
   end
 
+  describe "GET users#show without login" do
+    it "redirects root" do
+      get user_path(active_user)
+      expect(response).to redirect_to login_path
+    end
+  end
+
+  describe "GET users#list without login" do
+    it "redirects root" do
+      get list_user_path(active_user)
+      expect(response).to redirect_to login_path
+    end
+  end
+
   describe "GET users#edit without login" do
     it "redirects login_path" do
       get edit_user_path(active_user)
       expect(flash[:danger]).not_to eq nil
+      expect(response).to redirect_to login_path
+    end
+  end
+
+  describe "GET users#like_sending without login" do
+    it "redirects root" do
+      get like_sending_user_path(active_user)
+      expect(response).to redirect_to login_path
+    end
+  end
+
+  describe "GET users#like_receiving without login" do
+    it "redirects root" do
+      get like_receiving_user_path(active_user)
       expect(response).to redirect_to login_path
     end
   end
