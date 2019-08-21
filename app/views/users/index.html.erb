@@ -1,14 +1,24 @@
-<h1>All users</h1>
+<h1 id="form-title">Time Matcher ‪ ( 厂˙ω˙ )厂うぇーい‬</h1>
+<%= page_entries_info @users %>
 
-<ul class="?????">
-  <%= page_entries_info @users %>
+<div class="listpage">
   <% @users.each do |user| %>
-    <li>
-      <%= link_to user.name, user %>
-      <% if current_user.admin? && !current_user?(user) %>
-      | <%= link_to "delete", user, method: :delete, data: { confirm: "You sure?" } %>
-    <% end %>
-    </li>
+    <div class='user-cell'>
+      <div class='avater'>
+        <% if user.activated? %>
+          <%= link_to image_tag(user.display_image), user_path(user) %>
+        <% else %>
+          <%= image_tag(user.display_image) %>
+        <% end %>
+      </div>
+      <div class='non-avater'>
+        status: <%= user.activated %> <%= user.gender %> <%= user.like_receiving.count %> Likes
+        <% if current_user.admin? && unless current_user?(user) %>
+          <%= link_to "delete", user, method: :delete, data: { confirm: "You sure?" } %>
+        <% end %>
+      </div>
+    </div>
   <% end %>
-  <%= paginate @users %>
-</ul>
+</div>
+
+<%= paginate @users %>

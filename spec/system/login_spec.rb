@@ -13,7 +13,7 @@ RSpec.describe 'ログイン/ログアウト', type: :system do
   scenario "有効ユーザーでのログイン/ログアウトが成功する" do
     visit_and_fill_in(active_user)
     click_button 'Log in'
-    expect(current_path).to eq user_path(active_user)
+    expect(current_path).to eq users_path
     expect(page).not_to have_link 'Log in'
     expect(page).to have_link 'Users'
     expect(page).to have_link 'Profile'

@@ -14,9 +14,6 @@ header {
   align-items: center;
   height: 5vh;
   background-color: gray;
-  /*.header-menu{
-
-  }*/
   #logo {
     font-size: 1.7em;
     color: #fff;
@@ -37,11 +34,12 @@ header {
   }
 }
 
-.content {
-  height: 90vh;
+.body-content {
+  margin: 10px;
   min-height: 300px;
-  .home {
-    background: image-url('free_sky2.jpg');
+
+  .homepage {
+    background: image-url('free_sky.jpg');
     background-size: cover;
     display: flex;
     flex-direction: column;
@@ -50,7 +48,7 @@ header {
     .top-blank {
       height: 10vh;
     }
-    .contents {
+    .home-cell {
       height: 50vh;
       .signup_link {
         width: 150px;
@@ -67,6 +65,66 @@ header {
       height: 30vh;
     }
   }
+
+  .listpage {
+    display: flex;
+    flex-flow: row wrap;
+    align-content: space-around;
+    .user-cell{
+      justify-content: center;
+      align-items: center;
+      padding: 20px 15px;
+      .avater {
+        &:hover {
+          opacity: 0.6;
+        } 
+      }
+      .non-avater {
+        text-align: center;
+        .likebtn {
+          width: 150px;
+          background-color: pink;
+          &:hover {
+            opacity: 0.6;
+          } 
+        }
+        .sent {
+          margin:0 auto;
+          width: 150px;
+          height: 27px;
+          background-color: gold;
+        }
+      }
+    }
+  }
+
+  .showpage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: space-around;
+    align-items: center;
+    .profile-cell {
+      padding: 20px 15px;
+      .non-avater {
+        text-align: center;
+        .likebtn {
+          width: 150px;
+          background-color: pink;
+          &:hover {
+            opacity: 0.6;
+          } 
+        }
+        .sent {
+          margin:0 auto;
+          width: 150px;
+          height: 27px;
+          background-color: gold;
+        }
+      }
+    }
+  }
+
   #form-title{
     text-align: center;
   }
@@ -126,4 +184,12 @@ input {
 #session_remember_me {
   width: auto;
   margin-left: 0;
+}
+
+.radio-cell {
+  display: flex;
+  flex-direction: row;
+  .radio-part {
+    flex-basis: 20px;
+  }
 }

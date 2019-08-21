@@ -1,0 +1,15 @@
+<h1 id="form-title">Matching Users</h1>
+<div class="listpage">
+  <% @users.each do |user| %>
+    <div class='user-cell'>
+      <div class='avater'>
+        <%= link_to image_tag(user.display_image), matcher_path(user) %>
+      </div>
+      <div class='non-avater'>
+        <%= user.gender %><br>
+        <%= user.name %><br>
+        <%= user.like_receiving.count %> Likes
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,18 +1,25 @@
 class UsersController < ApplicationController
-  #Define Start  
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
-  before_action :correct_user,   only: [:edit, :update]
-  before_action :admin_user,     only: :destroy
-  #Define End
-  
-  #Action Start
+  # Define Start  
+  before_action :logged_in_user, only: [:index, :list, :show, :edit, :update, :destroy, :like_sending, :like_receiving]
+  before_action :correct_user,   only: [:list, :edit, :update, :like_sending, :like_receiving]
+  before_action :admin_user,     only: [:index, :destroy]
+
+  # Action Start
   def index
-    @users = User.where(activated: true).page(params[:page])
+    @users = User.page(params[:page])
   end
-  
+
   def show
     @user = User.find(params[:id])
-    redirect_to root_url and return unless @user.activated?
+  end
+
+  def list
+    @user = User.find(params[:id])
+    @users = User.where(
+      ["activated = :activated and gender != :gender",
+        {activated: true, gender: @user.gender}
+      ]
+    ).page(params[:page])
   end
   
   def new
@@ -49,35 +56,36 @@ class UsersController < ApplicationController
     flash[:success] = "User deleted"
     redirect_to users_url
   end
-  #Action End
+
+  def like_sending
+    @user  = User.find(params[:id])
+    @users = @user.like_sending.page(params[:page])
+    render 'show_likes'
+  end
+
+  def like_receiving
+    @user  = User.find(params[:id])
+    @users = @user.like_receiving.page(params[:page])
+    render 'show_likes'
+  end
   
-    #private start
     private
   
-    #Strong Parameters
+    # Strong Parameters
     def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation)
+      params.require(:user).permit(:gender, :name, :email, :password, :password_confirmation, :avater)
     end
   
-    #Before Action Start
-    def logged_in_user
-      unless logged_in?
-        store_location
-        flash[:danger] = "Please log in."
-        redirect_to login_url
-      end
-    end
-  
+    # Before Action Start
+    # Compare params[:id], session(cookies)[:user_id]
     def correct_user
       @user = User.find(params[:id])
       redirect_to(root_url) unless current_user?(@user)
     end
       
-    # 管理者かどうか確認
+    # Check Admin
     def admin_user
       redirect_to(root_url) unless current_user.admin?
     end
-    #Before Action End
-    
-    #private end
+
 end

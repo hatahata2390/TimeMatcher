@@ -1,0 +1,24 @@
+<%= form_with(model: @user, local: true) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+
+  <div class='radio-cell'>
+    <%= f.radio_button :gender, "male", class: 'radio-part' %>
+    <%= f.label(:gender, "Male", value: "male", class: 'radio-part') %>
+    <%= f.radio_button :gender, "female", class: 'radio-part' %>
+    <%= f.label(:gender, "Female", value: "female", class: 'radio-part') %>
+  </div>
+
+  <%= f.label :name %>
+  <%= f.text_field :name, class: 'form-control' %>
+  
+  <%= f.label :email %>
+  <%= f.email_field :email, class: 'form-control' %>
+  
+  <%= f.label :password %>
+  <%= f.password_field :password, class: 'form-control' %>
+  
+  <%= f.label :password_confirmation %>
+  <%= f.password_field :password_confirmation, class: 'form-control' %>
+  
+  <%= f.submit 'Create!', class: "btn btn-primary" %>
+<% end %>

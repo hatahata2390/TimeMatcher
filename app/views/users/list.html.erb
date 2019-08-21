@@ -1,0 +1,22 @@
+<h1 id="form-title">Time Matcher</h1>
+<%= page_entries_info @users %>
+
+<div class="listpage">
+  <% @users.each do |user| %>
+    <div class='user-cell'>
+      <div class='avater'>
+        <%= link_to image_tag(user.display_image), user_path(user) %>
+      </div>
+      <div class='non-avater'>
+        <%= user.gender %><%= user.name %><%= user.like_receiving.count %> Likes
+        <% if current_user.like_send_to?(user) %>
+          <div class='sent'><%= current_user.like_status(user) %></div> 
+        <% else %>
+          <%= render 'like_submit', {id: user.id, title: current_user.like_status(user)} %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= paginate @users %>
