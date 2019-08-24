@@ -35,9 +35,6 @@ header {
 }
 
 .body-content {
-  margin: 10px;
-  min-height: 300px;
-
   .homepage {
     background: image-url('free_sky.jpg');
     background-size: cover;
@@ -45,24 +42,19 @@ header {
     flex-direction: column;
     color: white;
     padding-left: 50px;
-    .top-blank {
-      height: 10vh;
-    }
     .home-cell {
-      height: 50vh;
-      .signup_link {
-        width: 150px;
-        height: 30px;
-        color: black;
-        background-color: white;
-        border: 5px solid white;
-        border-radius:40px;
-        text-align: center;
-        overflow:hidden;
-      }
+      margin: 50px 0px;
     }
-    .bottom-blank {
-      height: 30vh;
+    .signup_link {
+      width: 150px;
+      height: 30px;
+      color: black;
+      background-color: white;
+      border: 5px solid white;
+      border-radius:40px;
+      text-align: center;
+      overflow:hidden;
+      margin-bottom: 450px;
     }
   }
 
@@ -70,10 +62,11 @@ header {
     display: flex;
     flex-flow: row wrap;
     align-content: space-around;
+    margin: 0px 5px;
     .user-cell{
-      justify-content: center;
-      align-items: center;
-      padding: 20px 15px;
+      border: 2px solid gray;
+      background-color: antiquewhite;
+      padding: 20px 5px;
       .avater {
         &:hover {
           opacity: 0.6;
@@ -83,7 +76,11 @@ header {
         text-align: center;
         .likebtn {
           width: 150px;
+          height: 40px;
           background-color: pink;
+          color: black;
+          border: 5px solid gray;
+          border-radius:40px;
           &:hover {
             opacity: 0.6;
           } 
@@ -91,8 +88,11 @@ header {
         .sent {
           margin:0 auto;
           width: 150px;
-          height: 27px;
+          height: 40px;
           background-color: gold;
+          color: black;
+          border: 5px solid gray;
+          border-radius:40px;
         }
       }
     }
@@ -100,17 +100,27 @@ header {
 
   .showpage {
     display: flex;
-    flex-direction: column;
+    flex-direction: content;
     justify-content: center;
-    align-content: space-around;
-    align-items: center;
+    margin: 50px 5px;
     .profile-cell {
-      padding: 20px 15px;
+      background-color: antiquewhite;
+      border: 5px solid gray;
+      padding: 20px 5px;
+      .avater {
+        text-align: center;
+        margin-top: 50px;
+      }
       .non-avater {
         text-align: center;
+        margin: 50px 0px;
         .likebtn {
           width: 150px;
+          height: 40px;
           background-color: pink;
+          color: black;
+          border: 5px solid gray;
+          border-radius:40px;
           &:hover {
             opacity: 0.6;
           } 
@@ -118,10 +128,29 @@ header {
         .sent {
           margin:0 auto;
           width: 150px;
-          height: 27px;
+          height: 40px;
           background-color: gold;
+          color: black;
+          border: 5px solid gray;
+          border-radius:40px;
         }
       }
+    }
+  }
+
+  .matcherpage {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 50px 5px;
+    .profile-cell {
+      padding: 5px;
+      background-color: antiquewhite;
+      border: 5px solid gray;
+      text-align: center;
+    }
+    .chat-cell {
+      padding: 5px;
+      width: 660px;
     }
   }
 

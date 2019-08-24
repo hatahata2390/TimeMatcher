@@ -20,6 +20,8 @@ gem 'faker'
 gem 'bootstrap-sass'
 gem 'kaminari'
 gem 'nokogiri', ">= 1.10.4"
+gem "jquery-rails"
+gem 'jquery-turbolinks'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'

@@ -1,0 +1,25 @@
+<h1 id="form-title">Matching Users</h1>
+<%= page_entries_info @rooms %>
+
+<div class="listpage">
+  <% @rooms.each do |room| %>
+    <div class='user-cell'>
+      <% @users = room.users.where("user_id != ?", current_user.id) %>
+      <% if @users %>
+        <% @users.each do |user| %>
+          <div class='avater'>
+            <%= link_to image_tag(user.display_image), room_path(room) %>
+          </div>
+          <div class='non-avater'>
+            <p><%= user.name %></p>
+            <p><%= user.gender %></p>
+            <p><%= user.like_receiving.count %> Likes</p>
+            <p><%= user.comment %></p>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<%= paginate @rooms %>

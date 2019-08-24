@@ -23,6 +23,8 @@ class User < ApplicationRecord
             dependent:   :destroy  
   has_many :like_sending,   through: :active_relationships,   source: :like_receiver
   has_many :like_receiving, through: :negative_relationships, source: :like_sender
+  has_many :user_room_relationships
+  has_many :rooms, through: :user_room_relationships
   
 # Method
 
@@ -81,6 +83,11 @@ class User < ApplicationRecord
     reset_sent_at < 2.hours.ago
   end
 
+  # Return avater or default
+  def display_image
+    self.avater.attached? ? (self.avater.variant(resize: '250x250')) : "default.png"
+  end
+  
   # Add argument to like_sending
   def like(other_user)
     like_sending << other_user
@@ -96,14 +103,19 @@ class User < ApplicationRecord
     like_receiving.include?(other_user)
   end
 
+  # Return true if matching users
+  def matching?(other_user)
+    like_sending.include?(other_user) && like_receiving.include?(other_user)
+  end
+
   # Return array of matcher with User
   def matchers
     like_sending & like_receiving
   end
 
-  # Return avater or default
-  def display_image
-    self.avater.attached? ? (self.avater.variant(resize: '250x250')) : "default.png"
+  # Return true if form should not be displayed as button
+  def Cannot_it_push?(other_user)
+    self.matching?(other_user) || self.like_send_to?(other_user)
   end
 
   # Return like_relationship_status
