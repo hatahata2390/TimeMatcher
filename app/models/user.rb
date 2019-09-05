@@ -114,7 +114,7 @@ class User < ApplicationRecord
   end
 
   # Return true if form should not be displayed as button
-  def Cannot_it_push?(other_user)
+  def cannot_push?(other_user)
     self.matching?(other_user) || self.like_send_to?(other_user)
   end
 

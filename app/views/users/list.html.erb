@@ -12,11 +12,7 @@
         <p><%= user.gender %></p>
         <p><%= user.like_receiving.count %> Likes</p>
         <p><%= user.comment %></p>
-        <% if current_user.like_send_to?(user) %>
-          <div class='sent'><%= current_user.like_status(user) %></div> 
-        <% else %>
-          <%= render 'like_submit', {id: user.id, title: current_user.like_status(user)} %>
-        <% end %>
+        <%= render 'like_submit', {object: user} %>
       </div>
     </div>
   <% end %>

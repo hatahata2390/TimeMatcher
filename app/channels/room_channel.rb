@@ -1,7 +1,6 @@
 class RoomChannel < ApplicationCable::Channel
   def subscribed
-    # stream_from "room_channel"
-    stream_from "room_channel"
+    stream_from "room_channel_#{params['room_id']}"
   end
 
   def unsubscribed
@@ -9,7 +8,7 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def speak(data)
-    Message.create!(chat: data['message'], user: "temp", room_id: 1)
-    ActionCable.server.broadcast 'room_channel', message: data['message']
+    Message.create!(chat: data['message'], user: params['user_name'], room_id: params['room_id'])
+    ActionCable.server.broadcast "room_channel_#{params['room_id']}", message: "#{params['user_name']}: #{data['message']}"
   end
 end

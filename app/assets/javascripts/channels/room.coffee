@@ -1,5 +1,6 @@
-App.room = App.cable.subscriptions.create "RoomChannel",
-  connected: ->
+document.addEventListener 'turbolinks:load', ->
+  App.room = App.cable.subscriptions.create { channel: "RoomChannel", room_id: $('#messages').data('room_id'), user_name: $('#messages').data('user_name') },
+  connected: ->  
     # Called when the subscription is ready for use on the server
 
   disconnected: ->
@@ -7,12 +8,13 @@ App.room = App.cable.subscriptions.create "RoomChannel",
 
   received: (data) ->
     $('#messages').append data['message']
+    $('#messages').append('<br>')
 
   speak: (message) ->
     @perform 'speak', message: message
 
   $(document).on 'keypress', '[data-behavior~=room_speaker]', (event) ->
-    if event.keyCode is 13 # return = send
-      App.room.speak event.target.value # speak メソッド, event.target.valueを引数に.
+    if event.keyCode is 13
+      App.room.speak event.target.value
       event.target.value = ''
       event.preventDefault()

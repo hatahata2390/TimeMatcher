@@ -15,9 +15,8 @@
     </form>
   </div>
   <div class='chat-cell'>
-    <div id="messages" data-room_id="<%= @room.id %>">
+    <div id="messages" data-room_id="<%= @room.id %>" data-user_name="<%= current_user.name %>">
       <%= render @messages %>
     </div>
   </div>
 </div>
-
