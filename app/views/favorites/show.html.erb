@@ -1,0 +1,26 @@
+<h1 id="form-title">Time Matcher</h1>
+<p>User Search (Name)</p>
+<%= form_with(url: list_user_path(current_user), local: true, :method => 'get') do %>
+  <%= text_field_tag :search %>
+  <%= submit_tag 'Search', :name => nil %>
+<% end %>
+<%= page_entries_info @users %>
+
+<div class="listpage">
+  <% @users.each do |user| %>
+    <div class='user-cell'>
+    <div class='avater'>
+        <%= link_to image_tag(user.display_image), user_path(user) %>
+    </div>
+      <div class='non-avater'>
+        <p><%= user.name %></p>
+        <p><%= user.gender %></p>
+        <p><%= user.like_receiving.count %> Likes</p>
+        <p><%= user.comment %></p>
+        <%= render 'like_submit', {object: user} %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= paginate @users %>

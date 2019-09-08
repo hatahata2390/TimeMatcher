@@ -17,14 +17,20 @@ class User < ApplicationRecord
             class_name:  "LikeRelationship",
             foreign_key: "like_sender_id",
             dependent:   :destroy
-  has_many :negative_relationships, 
+  has_many :passive_relationships, 
             class_name:  "LikeRelationship",
             foreign_key: "like_receiver_id",
             dependent:   :destroy  
   has_many :like_sending,   through: :active_relationships,   source: :like_receiver
-  has_many :like_receiving, through: :negative_relationships, source: :like_sender
-  has_many :user_room_relationships
+  has_many :like_receiving, through: :passive_relationships, source: :like_sender
+  has_many :user_room_relationships,
+            dependent:   :destroy  
   has_many :rooms, through: :user_room_relationships
+  has_many :active_favorites,
+            class_name:  "Favorite",
+            foreign_key: "owner_user_id",
+            dependent:   :destroy
+  has_many :favorites,   through: :active_favorites,   source: :favorite_user
   
 # Method
 

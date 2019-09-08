@@ -11,11 +11,12 @@ Rails.application.routes.draw do
 
   resources :users do
     member do
-      get :like_sending, :like_receiving, :list
+      get :list, :like_sending, :like_receiving
     end
   end
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
   resources :like_relationships,  only: [:create]
   resources :rooms,               only: [:index, :show]
+  resources :favorites,           only: [:create, :show]
 end

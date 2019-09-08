@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   # Define Start  
-  before_action :logged_in_user, only: [:index, :list, :show, :edit, :update, :destroy, :like_sending, :like_receiving]
-  before_action :correct_user,   only: [:list, :edit, :update, :like_sending, :like_receiving]
+  before_action :logged_in_user, only: [:index, :list, :show, :edit, :update, :destroy, :favorite, :like_sending, :like_receiving]
+  before_action :correct_user,   only: [:list, :edit, :update, :favorite, :like_sending, :like_receiving]
   before_action :admin_user,     only: [:index, :destroy]
 
   # Action Start
@@ -56,7 +56,7 @@ class UsersController < ApplicationController
     flash[:success] = "User deleted"
     redirect_to users_url
   end
-
+  
   def like_sending
     @user  = User.find(params[:id])
     @users = @user.like_sending.page(params[:page])
