@@ -1,0 +1,22 @@
+<div class='matcherpage'>
+  <div class='profile-cell'>
+    <% @users.each do |user| %>
+      <%= image_tag(user.display_image) %>
+      <div class='non-avater'>
+        <p><%= user.name %></p>
+        <p><%= user.gender %></p>
+        <p><%= user.like_receiving.count %> Likes</p>
+        <p><%= user.comment %></p>
+      </div>
+    <% end %>
+    <form>
+      <label>Say something:</label><br>
+      <input type="text" data-behavior="room_speaker">
+    </form>
+  </div>
+  <div class='chat-cell'>
+    <div id="messages" data-room_id="<%= @room.id %>" data-user_name="<%= current_user.name %>">
+      <%= render @messages %>
+    </div>
+  </div>
+</div>

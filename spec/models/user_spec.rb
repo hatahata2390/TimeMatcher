@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   let(:user) {FactoryBot.create(:negative_user)}
-  let(:ami) {FactoryBot.create(:Ami)}
-  let(:bob) {FactoryBot.create(:Bob)}
+  let(:ami) {FactoryBot.create(:ami)}
+  let(:bob) {FactoryBot.create(:bob)}
 
   describe 'Validation Check' do
 
@@ -64,13 +64,28 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'Check destruction of associated records' do
+    
+    it "changes count of LikeRelationship when like_sender is destroyed" do
+      LikeRelationship.create!(like_sender_id: ami.id, like_receiver_id: bob.id)
+      expect{ami.destroy}.to change{LikeRelationship.count}.by(-1)
+    end
+
+    it "changes count of LikeRelationship when like_receiver is destroyed" do
+      LikeRelationship.create!(like_sender_id: ami.id, like_receiver_id: bob.id)
+      expect{bob.destroy}.to change{LikeRelationship.count}.by(-1)
+    end
+
+  end
+
   describe 'Class Method Check' do
+
     it "returns token when call new_token" do
-      expect(User.new_token).to_not be be_empty
+      expect(User.new_token).not_to be be_empty
     end
 
     it "returns token when call new_token" do
-      expect(User.digest("aaaaaa")).to_not be_empty
+      expect(User.digest("aaaaaa")).not_to be_empty
     end
   end
 
@@ -93,16 +108,32 @@ RSpec.describe User, type: :model do
       expect(user.activate).to eq true
     end
 
+
     it "returns true when call create_reset_digest" do
       expect(user.create_reset_digest).to eq true
     end
 
-    it "works correctly when call like, like_send_to? and like_sent_by?" do
+    it "works correctly when call like, like_send_to?, like_sent_by? and matching?" do
       expect(ami.like_send_to?(bob)).not_to eq true
+      expect(ami.like_sent_by?(bob)).not_to eq true
+      expect(bob.like_send_to?(ami)).not_to eq true
       expect(bob.like_sent_by?(ami)).not_to eq true
+      expect(ami.matching?(bob)).not_to eq true
+      expect(bob.matching?(ami)).not_to eq true
       ami.like(bob)
       expect(ami.like_send_to?(bob)).to eq true
+      expect(ami.like_sent_by?(bob)).not_to eq true
+      expect(bob.like_send_to?(ami)).not_to eq true
       expect(bob.like_sent_by?(ami)).to eq true
+      expect(ami.matching?(bob)).not_to eq true
+      expect(bob.matching?(ami)).not_to eq true
+      bob.like(ami)
+      expect(ami.like_send_to?(bob)).to eq true
+      expect(ami.like_sent_by?(bob)).to eq true
+      expect(bob.like_send_to?(ami)).to eq true
+      expect(bob.like_sent_by?(ami)).to eq true
+      expect(ami.matching?(bob)).to eq true
+      expect(bob.matching?(ami)).to eq true
     end   
 
   end

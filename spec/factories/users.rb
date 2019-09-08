@@ -10,7 +10,7 @@ FactoryBot.define do
     end
     #有効化済み一般ユーザー
     factory :active_user, class: User do
-        gender{'fale'}
+        gender{'male'}
         name {'active'}
         email{'active@com'}
         password{'bbbbbb'}
@@ -28,7 +28,7 @@ FactoryBot.define do
     end
 
     #有効化nonアドミンモブユーザーA
-    factory :Ami, class: User do
+    factory :ami, class: User do
         gender{'female'}
         name {'Ami'}
         email{'ami@com'}
@@ -37,7 +37,7 @@ FactoryBot.define do
         activated{true}
     end
     #有効化nonアドミンモブユーザーB
-    factory :Bob, class: User do
+    factory :bob, class: User do
         gender{'male'}
         name {'Bob'}
         email{'bob@com'}

@@ -19,7 +19,7 @@ class UsersController < ApplicationController
       ["activated = :activated and gender != :gender",
         {activated: true, gender: @user.gender}
       ]
-    ).page(params[:page])
+    ).search(params[:search]).page(params[:page])
   end
   
   def new
@@ -60,32 +60,34 @@ class UsersController < ApplicationController
   def like_sending
     @user  = User.find(params[:id])
     @users = @user.like_sending.page(params[:page])
-    render 'show_likes'
+    render "list"
+    # render 'show_likes'
   end
 
   def like_receiving
     @user  = User.find(params[:id])
     @users = @user.like_receiving.page(params[:page])
-    render 'show_likes'
+    render "list"
+    # render 'show_likes'
   end
   
     private
   
     # Strong Parameters
     def user_params
-      params.require(:user).permit(:gender, :name, :email, :password, :password_confirmation, :avater)
+      params.require(:user).permit(:gender, :name, :email, :password, :password_confirmation, :avater, :comment, :search)
     end
   
     # Before Action Start
     # Compare params[:id], session(cookies)[:user_id]
     def correct_user
       @user = User.find(params[:id])
-      redirect_to(root_url) unless current_user?(@user)
-    end
-      
+      render :file => "#{Rails.root}/public/404.html", layout: false, status: :not_found unless current_user?(@user)
+    end 
+
     # Check Admin
     def admin_user
-      redirect_to(root_url) unless current_user.admin?
+      render :file => "#{Rails.root}/public/404.html", layout: false, status: :not_found unless current_user.admin?
     end
 
 end

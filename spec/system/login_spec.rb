@@ -1,30 +1,35 @@
 require 'rails_helper'
 
-RSpec.describe 'ログイン/ログアウト', type: :system do
+RSpec.describe 'Login/Logout function', type: :system do
   let(:negative_user) {FactoryBot.create(:negative_user)}
   let(:active_user) {FactoryBot.create(:active_user)}
 
-  scenario "無効ユーザーでのログインが失敗する" do
+  scenario "Fail to login by negative user" do
     visit_and_fill_in(negative_user)
     click_button 'Log in'
     expect(current_path).to eq root_path
+    expect(page).to have_link 'Log in'
+    expect(page).not_to have_link 'Find'
+    expect(page).not_to have_link 'Matchers'
+    expect(page).not_to have_link 'Profile'
+    expect(page).not_to have_link 'Log out'
   end
 
-  scenario "有効ユーザーでのログイン/ログアウトが成功する" do
+  scenario "Success to login by active user" do
     visit_and_fill_in(active_user)
     click_button 'Log in'
-    expect(current_path).to eq users_path
+    expect(current_path).to eq list_user_path(active_user)
     expect(page).not_to have_link 'Log in'
-    expect(page).to have_link 'Users'
+    expect(page).to have_link 'Find'
+    expect(page).to have_link 'Matchers'
     expect(page).to have_link 'Profile'
-    expect(page).to have_link 'Settings'
     expect(page).to have_link 'Log out'
     click_link 'Log out'
     expect(current_path).to eq root_path
     expect(page).to have_link 'Log in'
-    expect(page).not_to have_link 'Users'
+    expect(page).not_to have_link 'Find'
+    expect(page).not_to have_link 'Matchers'
     expect(page).not_to have_link 'Profile'
-    expect(page).not_to have_link 'Settings'
     expect(page).not_to have_link 'Log out'
   end
 

@@ -1,19 +1,20 @@
 <div class='showpage'>
   <div class='profile-cell'>
+    <div class='avater'>
     <%= image_tag(@user.display_image) %>
+    </div>
     <div class='non-avater'>
-      <%= @user.name %>  <%= @user.gender %>  <%= @user.like_receiving.count %> Likes
+      <p><%= @user.name %></p>
+      <p><%= @user.gender %></p>
+      <p><%= @user.like_receiving.count %> Likes</p>
+      <p><%= @user.comment %></p>
       <% if current_user?(@user) %>
-        <%= link_to "Users You Sent", like_sending_user_path(@user) %>
-        <%= link_to "Users You Send By", like_receiving_user_path(@user) %>
-        <%= link_to "Matching Users", matchers_path %>
-        <%= link_to "Edit Profile", edit_user_path(current_user) %>
-      <% else %>      
-        <% if current_user.like_send_to?(@user) %>
-          <div class='sent'><%= current_user.like_status(@user) %></div> 
-        <% else %>
-          <%= render 'like_submit', {id: @user.id, title: current_user.like_status(@user)} %>
-        <% end %>
+        <p><%= link_to "Users You Sent", like_sending_user_path(@user) %></p>
+        <p><%= link_to "Users You Send By", like_receiving_user_path(@user) %></p>
+        <p><%= link_to "Matching Users", rooms_path %></p>
+        <p><%= link_to "Edit Profile", edit_user_path(current_user) %></p>
+      <% else %>
+        <%= render 'like_submit', {object: @user} %>
       <% end %>
     </div>
   </div>

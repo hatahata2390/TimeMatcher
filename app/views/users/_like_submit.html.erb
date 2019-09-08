@@ -1,4 +1,8 @@
-<%= form_with(url: like_relationships_path) do |f| %>
-  <div><%= hidden_field_tag :like_receiver_id, id %></div>
-  <%= f.submit title, class: "likebtn" %>
+<% if current_user.cannot_push?(object) %>
+  <div class='sent'><%= current_user.like_status(object) %></div> 
+<% else %>
+  <%= form_with(url: like_relationships_path, local: true) do |f| %>
+    <div><%= hidden_field_tag :like_receiver_id, object.id %></div>
+    <%= f.submit current_user.like_status(object), class: "likebtn" %>
+  <% end %>
 <% end %>

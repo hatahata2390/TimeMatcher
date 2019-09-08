@@ -1,5 +1,5 @@
 class PasswordResetsController < ApplicationController
-  # Setting Start 
+  # Define Start 
   before_action :get_user,         only: [:edit, :update]
   before_action :valid_user,       only: [:edit, :update]
   before_action :check_expiration, only: [:edit, :update]
@@ -36,7 +36,6 @@ class PasswordResetsController < ApplicationController
   end
   
   def edit
-    
   end
 
     private
@@ -55,7 +54,7 @@ class PasswordResetsController < ApplicationController
     # Check Validation of @user
     def valid_user
       unless (@user && @user.activated? && @user.authenticated?(:reset, params[:id]))
-        redirect_to root_url
+        render :file => "#{Rails.root}/public/404.html",  layout: false, status: :not_found
       end
     end
   
