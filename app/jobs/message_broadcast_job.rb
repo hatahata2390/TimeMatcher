@@ -1,13 +1,19 @@
-# class MessageBroadcastJob < ApplicationJob
-#   queue_as :default
+# もともとモデルの以下コミットを受けて動く仕様だった
+# ジョブからだとブロードキャストがどうしてもうまく行かなかった　パラメータはあってたんだけどな。。。
+# after_create_commit { MessageBroadcastJob.perform_later self }
 
-#   def perform(message)
-#     ActionCable.server.broadcast 'matcher_channel', message: render_message(message)
-#   end
+class MessageBroadcastJob < ApplicationJob
+ queue_as :default
 
-#     private
-#       def render_message(message)
-#         ApplicationController.renderer.render(partial: 'messages/message', locals: { message: message })
-#       end
+  def perform(message)
+    ActionCable.server.broadcast "room_channel_#{message.room_id}", message: "test"
+    debugger
+    # ActionCable.server.broadcast "room_channel_#{message.room_id}", message: render_message(message)
+  end
 
-#     end
+    private
+
+    def render_message(message)
+      ApplicationController.renderer.render(partial: 'messages/message', locals: { message: message })
+    end
+end

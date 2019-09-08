@@ -81,10 +81,17 @@ User.find_or_create_by!(email: "ad@com") do |user|
   user.comment = "I'm admin user."
 end
 
-# # リレーションシップ
-# users = User.all
-# user  = users.first
-# like_receivers = users[26..40]
-# like_senders = users[30..44]
-# like_receivers.each { |like_receiver| user.like(like_receiver) }
-# like_senders.each { |like_sender| like_sender.like(user) }
+# リレーションシップ & ルーム
+users = User.all
+user  = users.first
+like_receivers = users[26..40]
+like_senders = users[30..44]
+matchers = users[30..40]
+like_receivers.each { |like_receiver| user.like(like_receiver) }
+like_senders.each { |like_sender| like_sender.like(user) }
+matchers.each do |matcher|
+  room = Room.new(name: "seed#{matcher.name}")
+  room.save
+  room.add_user(user)
+  room.add_user(matcher) 
+end

@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 2019_08_25_103759) do
     t.string "gender", null: false
     t.string "name", null: false
     t.string "email", null: false
+    t.text "comment"
     t.string "password_digest"
     t.string "remember_digest"
     t.boolean "admin", default: false
@@ -82,7 +83,6 @@ ActiveRecord::Schema.define(version: 2019_08_25_103759) do
     t.datetime "activated_at"
     t.string "reset_digest"
     t.datetime "reset_sent_at"
-    t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe '各リンク動作テスト', type: :system do
+RSpec.describe 'Test links in Top page', type: :system do
   scenario "Title" do
     visit_and_click_link('Time Matcher')
     expect(current_path).to eq root_path
@@ -9,11 +9,6 @@ RSpec.describe '各リンク動作テスト', type: :system do
   scenario "Home" do
     visit_and_click_link('Home')
     expect(current_path).to eq root_path
-  end
-
-  scenario "Help" do
-    visit_and_click_link('Help')
-    expect(current_path).to eq '/help'
   end
 
   scenario "Log in" do

@@ -8,7 +8,6 @@ document.addEventListener 'turbolinks:load', ->
 
   received: (data) ->
     $('#messages').append data['message']
-    $('#messages').append('<br>')
 
   speak: (message) ->
     @perform 'speak', message: message

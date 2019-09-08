@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe 'ユーザー登録機能', type: :system do
+RSpec.describe 'Signup function', type: :system do
   include ActiveJob::TestHelper
 
-  scenario "未入力、またはパスワード不一致時登録不可" do
+  scenario "Not create new acount when password not match or not fill_in some form" do
     visit new_user_path
     choose 'Male'
     fill_in_contents(nil,nil,nil,nil)
@@ -34,7 +34,7 @@ RSpec.describe 'ユーザー登録機能', type: :system do
     expect_user_not_created
   end
 
-  scenario "全件入力時かつパスワード一致時のみ登録可能" do
+  scenario "Create new acount when password match and fill_in all form" do
     visit new_user_path
     choose 'Female'
     fill_in_contents('ad','ad@com','aaaaaa','aaaaaa')
@@ -50,16 +50,16 @@ RSpec.describe 'ユーザー登録機能', type: :system do
 
   def expect_user_not_created
     aggregate_failures do
-      expect {click_button 'Create my account'}.to_not change(User, :count)
-      expect(page).to have_content 'The form contains'
+      expect {click_button 'Create!'}.to_not change(User, :count)
+      expect(page).to have_content 'error'
     end
   end
 
   def expect_user_created
     perform_enqueued_jobs do
-      expect {click_button 'Create my account'}.to change(User, :count).by(1)
+      expect {click_button 'Create!'}.to change(User, :count).by(1)
       expect(current_path).to eq root_path
-      expect(page).to_not have_content 'The form contains'
+      expect(page).to_not have_content 'error'
       @user = User.find_by(email: 'ad@com')
       expect(@user.activated).to eq false
       expect(@user.activation_digest).not_to eq nil

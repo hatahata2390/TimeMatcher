@@ -8,7 +8,12 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def speak(data)
-    Message.create!(chat: data['message'], user: params['user_name'], room_id: params['room_id'])
-    ActionCable.server.broadcast "room_channel_#{params['room_id']}", message: "#{params['user_name']}: #{data['message']}"
+    unless data['message'].empty?
+      message = Message.new(chat: data['message'], user: params['user_name'], room_id: params['room_id'])
+      message.save
+      send_content = ApplicationController.renderer.render(partial: 'messages/message', locals: { message: message })
+      ActionCable.server.broadcast "room_channel_#{params['room_id']}", message: send_content
+    end
   end
+  
 end

@@ -4,6 +4,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string   :gender, null: false
       t.string   :name, null: false
       t.string   :email, null: false
+      t.text     :comment
       t.string   :password_digest
       t.string   :remember_digest
       t.boolean  :admin, default: false
@@ -12,7 +13,6 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.datetime :activated_at
       t.string   :reset_digest
       t.datetime :reset_sent_at
-      t.text     :comment
 
       t.timestamps
     end

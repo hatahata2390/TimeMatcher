@@ -1,9 +1,9 @@
 <h1 id="form-title">Like</h1>
 <%= page_entries_info @users %>
 
-<div class="showpage">
+<div class="listpage">
   <% @users.each do |user| %>
-    <div class='profile-cell'>
+    <div class='user-cell'>
       <div class='avater' >
         <%= link_to image_tag(user.display_image), user_path(user) %>
       </div>

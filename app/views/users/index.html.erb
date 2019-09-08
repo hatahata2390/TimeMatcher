@@ -13,7 +13,7 @@
       </div>
       <div class='non-avater'>
         status: <%= user.activated %> <%= user.gender %> <%= user.like_receiving.count %> Likes
-        <% if current_user.admin? && unless current_user?(user) %>
+        <% if current_user.admin? && !current_user?(user) %>
           <%= link_to "delete", user, method: :delete, data: { confirm: "You sure?" } %>
         <% end %>
       </div>

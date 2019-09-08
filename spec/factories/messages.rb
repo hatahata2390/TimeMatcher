@@ -1,5 +1,6 @@
 FactoryBot.define do
-  factory :message do
-    chat { "MyText" }
+  #一般チャット
+  factory :sample_message, class: Message do
+    chat {'sample'}
   end
 end
