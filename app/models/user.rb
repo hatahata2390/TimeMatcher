@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_secure_password
 
 # Validation
-  validates :gender,   presence: true
+  validates :gender,   presence: true, inclusion: { in: %w(male female) }
   validates :name,     presence: true, length: { maximum: 50 }
   validates :email,    presence: true, length: { maximum: 50 }, uniqueness: { case_sensitive: false }
   validates :password, presence: true, length: { minimum:  6 }, allow_nil: true
@@ -30,8 +30,12 @@ class User < ApplicationRecord
             class_name:  "Favorite",
             foreign_key: "owner_user_id",
             dependent:   :destroy
-  has_many :favorites,   through: :active_favorites,   source: :favorite_user
-  
+  has_many :favorites,    through: :active_favorites,   source: :favorite_user
+  has_many :passive_footprints,
+            class_name:  "Footprint",
+            foreign_key: "stepped_on_id",
+            dependent:   :destroy
+  has_many :footprints,   through: :passive_footprints,   source: :stepper
 # Method
 
   # Return random token
@@ -125,6 +129,11 @@ class User < ApplicationRecord
     like_sending & like_receiving
   end
 
+  # Return true if User add argument to favorite
+  def favorite?(other_user)
+    favorites.include?(other_user)
+  end
+
   # Return true if form should not be displayed as button
   def cannot_push?(other_user)
     self.matching?(other_user) || self.like_send_to?(other_user)
@@ -132,11 +141,15 @@ class User < ApplicationRecord
 
   # Return like_relationship_status
   def like_status(other_user)
-    if self.like_send_to?(other_user)
-      self.matchers.include?(other_user) ? "Already Matching!" : "Already Sent!"
-    else
-      self.like_sent_by?(other_user) ? "Thanks Like!" : "Like!"
-    end
+    # if self.like_send_to?(other_user)
+    #   self.matchers.include?(other_user) ? "Already Matching!" : "Already Sent!"
+    # else
+    #   self.like_sent_by?(other_user) ? "Thanks Like!" : "Like!"
+    # end
+    return "Already Matching!" if self.matchers.include?(other_user)
+    return "Already Sent!"     if self.like_send_to?(other_user)
+    return "Thanks Like!"      if self.like_sent_by?(other_user)
+    return "Like!"             
   end
 
     private

@@ -1,0 +1,7 @@
+<% if !current_user.favorite?(object) %>
+  <%= link_to "post", favorites_path(favorite_user_id: object.id), 
+  method: :post %>
+<% else %>
+  <%= link_to "delete", favorite_path(current_user, favorite_user_id: object.id), 
+  method: :delete, data: { confirm: "You sure?" } %>
+<% end %>

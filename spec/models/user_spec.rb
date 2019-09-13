@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   let(:user) {FactoryBot.create(:negative_user)}
-  let(:ami) {FactoryBot.create(:ami)}
-  let(:bob) {FactoryBot.create(:bob)}
+  let!(:ami) {FactoryBot.create(:ami)}
+  let!(:bob) {FactoryBot.create(:bob)}
 
   describe 'Validation Check' do
 
@@ -84,9 +84,15 @@ RSpec.describe User, type: :model do
       expect(User.new_token).not_to be be_empty
     end
 
-    it "returns token when call new_token" do
+    it "returns digest when call new_token" do
       expect(User.digest("aaaaaa")).not_to be_empty
     end
+
+    it "returns something when call search" do
+      expect(User.search("Ami")).not_to be_empty
+      expect(User.search(nil)).not_to be_empty
+    end    
+
   end
 
   describe 'Instance Method Check' do
@@ -113,20 +119,29 @@ RSpec.describe User, type: :model do
       expect(user.create_reset_digest).to eq true
     end
 
-    it "works correctly when call like, like_send_to?, like_sent_by? and matching?" do
+    it "works correctly when call like, like_send_to?, like_sent_by?, matching?, cannot_push? and like_status" do
       expect(ami.like_send_to?(bob)).not_to eq true
       expect(ami.like_sent_by?(bob)).not_to eq true
       expect(bob.like_send_to?(ami)).not_to eq true
       expect(bob.like_sent_by?(ami)).not_to eq true
       expect(ami.matching?(bob)).not_to eq true
       expect(bob.matching?(ami)).not_to eq true
+      expect(ami.cannot_push?(bob)).not_to eq true
+      expect(bob.cannot_push?(ami)).not_to eq true
+      expect(ami.like_status(bob)).to eq "Like!"
+      expect(bob.like_status(ami)).to eq "Like!"
       ami.like(bob)
+      debugger
       expect(ami.like_send_to?(bob)).to eq true
       expect(ami.like_sent_by?(bob)).not_to eq true
       expect(bob.like_send_to?(ami)).not_to eq true
       expect(bob.like_sent_by?(ami)).to eq true
       expect(ami.matching?(bob)).not_to eq true
       expect(bob.matching?(ami)).not_to eq true
+      expect(ami.cannot_push?(bob)).to eq true
+      expect(bob.cannot_push?(ami)).not_to eq true
+      expect(ami.like_status(bob)).to eq "Already Sent!"
+      expect(bob.like_status(ami)).to eq "Thanks Like!"
       bob.like(ami)
       expect(ami.like_send_to?(bob)).to eq true
       expect(ami.like_sent_by?(bob)).to eq true
@@ -134,6 +149,10 @@ RSpec.describe User, type: :model do
       expect(bob.like_sent_by?(ami)).to eq true
       expect(ami.matching?(bob)).to eq true
       expect(bob.matching?(ami)).to eq true
+      expect(ami.cannot_push?(bob)).to eq true
+      expect(bob.cannot_push?(ami)).to eq true
+      expect(ami.like_status(bob)).to eq "Already Matching!"
+      expect(bob.like_status(ami)).to eq "Already Matching!"
     end   
 
   end

@@ -9,13 +9,15 @@
       <p><%= @user.like_receiving.count %> Likes</p>
       <p><%= @user.comment %></p>
       <% if current_user?(@user) %>
+        <p><%= link_to "Footprints", footprint_path(current_user) %></p>
         <p><%= link_to "Favorite Users", favorite_path(@user) %></p>
         <p><%= link_to "Users You Sent", like_sending_user_path(@user) %></p>
         <p><%= link_to "Users You Send By", like_receiving_user_path(@user) %></p>
         <p><%= link_to "Matching Users", rooms_path %></p>
         <p><%= link_to "Edit Profile", edit_user_path(current_user) %></p>
       <% else %>
-        <%= render 'like_submit', {object: @user} %>
+        <%= render 'layouts/like_submit', {object: @user} %>
+        <%= render 'layouts/favorite_submit', {object: @user} %>
       <% end %>
     </div>
   </div>

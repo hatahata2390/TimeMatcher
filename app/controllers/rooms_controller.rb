@@ -6,10 +6,7 @@ class RoomsController < ApplicationController
 # Action Start  
   def index
     @rooms = current_user.rooms.page(params[:page])
-    if @rooms.empty?
-      flash[:warning] = 'temp'
-      redirect_to root_url
-    end
+    display_error_if_empty(@rooms,'No matcher','list_user_path(current_user)')
   end
 
   def show
@@ -21,7 +18,7 @@ class RoomsController < ApplicationController
   private
 
     # Before Action Start
-    # Compare params[:id], session(cookies)[:user_id]
+    # Check user belong to room or not
     def correct_room
       @hoge = Room.find(params[:id])
       @hoges = @hoge.users

@@ -1,0 +1,5 @@
+<p>User Search (Name)</p>
+<%= form_with(url: link_to, local: true, :method => 'get') do %>
+  <%= text_field_tag :search %>
+  <%= submit_tag 'Search', :name => nil %>
+<% end %>

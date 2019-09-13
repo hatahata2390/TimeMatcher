@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_08_135747) do
+ActiveRecord::Schema.define(version: 2019_09_10_132326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,16 @@ ActiveRecord::Schema.define(version: 2019_09_08_135747) do
     t.index ["favorite_user_id"], name: "index_favorites_on_favorite_user_id"
     t.index ["owner_user_id", "favorite_user_id"], name: "index_favorites_on_owner_user_id_and_favorite_user_id", unique: true
     t.index ["owner_user_id"], name: "index_favorites_on_owner_user_id"
+  end
+
+  create_table "footprints", force: :cascade do |t|
+    t.integer "stepper_id"
+    t.integer "stepped_on_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["stepped_on_id"], name: "index_footprints_on_stepped_on_id"
+    t.index ["stepper_id", "stepped_on_id"], name: "index_footprints_on_stepper_id_and_stepped_on_id", unique: true
+    t.index ["stepper_id"], name: "index_footprints_on_stepper_id"
   end
 
   create_table "like_relationships", force: :cascade do |t|

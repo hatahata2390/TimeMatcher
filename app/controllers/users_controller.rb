@@ -11,6 +11,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    Footprint.create(stepper_id: current_user.id, stepped_on_id: params[:id]) if @user.id != current_user.id
   end
 
   def list
@@ -59,16 +60,14 @@ class UsersController < ApplicationController
   
   def like_sending
     @user  = User.find(params[:id])
-    @users = @user.like_sending.page(params[:page])
-    render "list"
-    # render 'show_likes'
+    @users = @user.like_sending.search(params[:search]).page(params[:page])
+    render "like_relationship"
   end
 
   def like_receiving
     @user  = User.find(params[:id])
-    @users = @user.like_receiving.page(params[:page])
-    render "list"
-    # render 'show_likes'
+    @users = @user.like_receiving.search(params[:search]).page(params[:page])
+    render "like_relationship"
   end
   
     private

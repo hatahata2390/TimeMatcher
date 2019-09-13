@@ -16,7 +16,8 @@ Rails.application.routes.draw do
   end
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
-  resources :like_relationships,  only: [:create]
-  resources :rooms,               only: [:index, :show]
-  resources :favorites,           only: [:create, :show]
+  resources :like_relationships,  only: [:create, :destroy]
+  resources :rooms,               only: [:index,  :show, :destroy]
+  resources :favorites,           only: [:create, :show, :destroy]
+  resources :footprints,          only: [:show]
 end

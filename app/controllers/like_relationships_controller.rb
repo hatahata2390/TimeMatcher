@@ -8,6 +8,8 @@ class LikeRelationshipsController < ApplicationController
     current_user.like(user)
     flash[:success] = "Like sending!"
     if current_user.matching?(user)
+      Footprint.find_by(stepper_id: current_user.id, stepped_on_id: user.id).destroy
+      Footprint.find_by(stepper_id: user.id, stepped_on_id: current_user.id).destroy
       @room = Room.new(name: "#{current_user.email}#{user.email}")
       if @room.save
         @room.add_user(current_user)

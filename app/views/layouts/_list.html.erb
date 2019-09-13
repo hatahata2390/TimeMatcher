@@ -1,0 +1,15 @@
+<div class="listpage">
+  <% @users.each do |target_user| %>
+    <div class='user-cell'>
+      <div class='avater'>
+        <%= link_to image_tag(target_user.display_image), user_path(target_user) %>
+      </div>
+      <div class='non-avater'>
+        <p><%= target_user.name %> <%= target_user.gender %> <%= target_user.like_receiving.count %> Likes</p>
+        <p><%= target_user.comment %></p>
+        <%= render 'layouts/like_submit', {object: target_user} %>
+        <%= render 'layouts/favorite_submit', {object: target_user} %>
+      </div>
+    </div>
+  <% end %>
+</div>

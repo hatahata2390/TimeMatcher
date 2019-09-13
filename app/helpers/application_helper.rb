@@ -21,6 +21,12 @@ module ApplicationHelper
         @current_user = user
       end
     end
+    # return @current_user ||= User.find_by(id: user_id) if (user_id = session[:user_id])    
+    # user = User.find_by(id: user_id) if (user_id = cookies.signed[:user_id])
+    # if user && user.authenticated?(:remember, cookies[:remember_token])
+    #   log_in user
+    #   @current_user = user
+    # end    
   end
 
   # 渡されたユーザーがログイン済みユーザーであればtrueを返す
@@ -37,6 +43,14 @@ module ApplicationHelper
   # アクセスしようとしたURLを覚えておく
   def store_location
     session[:forwarding_url] = request.original_url if request.get?
+  end
+
+  # オブジェクトが空の場合、警告を表示する
+  def display_error_if_empty(object,message,path)
+    if object.empty?
+      flash[:warning] = message
+      request.referrer || path
+    end  
   end
 
 end
